@@ -46,9 +46,9 @@ namespace ToDoList
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             // Uncomment the following lines to enable logging in with third party login providers
-            app.UseMicrosoftAccountAuthentication(
-                 clientId: "f51d1cb0-e922-4ed4-8a07-6ffc1c53956b",
-                 clientSecret: "iviVSS8578}}:^kyhdGFYS4");
+            //app.UseMicrosoftAccountAuthentication(
+            //     clientId: "f51d1cb0-e922-4ed4-8a07-6ffc1c53956b",
+            //     clientSecret: "iviVSS8578}}:^kyhdGFYS4");
 
             //app.UseTwitterAuthentication(
             //   consumerKey: "",

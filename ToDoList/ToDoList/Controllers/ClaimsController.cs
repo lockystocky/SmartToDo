@@ -18,9 +18,6 @@ namespace ToDoList.Controllers
     [Authorize]
     public class ClaimsController : Controller
     {
-
-
-
         async public Task<ActionResult> Calendar()
         {
             string token = await GetAccessToken();
@@ -101,10 +98,7 @@ namespace ToDoList.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            WriteLog("In claims index");
-            try
-            {
-                var claimsPrincipalCurrent = System.Security.Claims.ClaimsPrincipal.Current;
+            var claimsPrincipalCurrent = System.Security.Claims.ClaimsPrincipal.Current;
                 //You get the user’s first and last name below:
                 ViewBag.Name = claimsPrincipalCurrent.FindFirst("name").Value;
 
@@ -116,11 +110,12 @@ namespace ToDoList.Controllers
 
                 // TenantId is the unique Tenant Id - which represents an organization in Azure AD
                 ViewBag.TenantId = claimsPrincipalCurrent.FindFirst("http://schemas.microsoft.com/identity/claims/tenantid").Value;
-            }
-            catch(Exception e)
-            {
-                WriteLog(e.Message);
-            }
+           
+            return View();
+        }
+
+        public ActionResult Test()
+        {
             return View();
         }
 

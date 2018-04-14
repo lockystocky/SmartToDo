@@ -16,84 +16,11 @@ using Microsoft.AspNet.Identity;
 [assembly: OwinStartupAttribute(typeof(ToDoList.Startup))]
 namespace ToDoList
 {
-   
-    /*public partial class Startup
-    {
-        // The Client ID is used by the application to uniquely identify itself to Azure AD.
-        string clientId = System.Configuration.ConfigurationManager.AppSettings["ClientId"];
-
-        // RedirectUri is the URL where the user will be redirected to after they sign in.
-        string redirectUri = System.Configuration.ConfigurationManager.AppSettings["RedirectUri"];
-
-        // Tenant is the tenant ID (e.g. contoso.onmicrosoft.com, or 'common' for multi-tenant)
-        static string tenant = System.Configuration.ConfigurationManager.AppSettings["Tenant"];
-
-        // Authority is the URL for authority, composed by Azure Active Directory v2 endpoint and the tenant name (e.g. https://login.microsoftonline.com/contoso.onmicrosoft.com/v2.0)
-        string authority = String.Format(System.Globalization.CultureInfo.InvariantCulture, System.Configuration.ConfigurationManager.AppSettings["Authority"], tenant);
-
-        /// <summary>
-        /// Configure OWIN to use OpenIdConnect 
-        /// </summary>
-        /// <param name="app"></param>
-        public void Configuration(IAppBuilder app)
-        {
-            ConfigureAuth(app);
-
-
-
-            app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
-            app.UseOpenIdConnectAuthentication(
-            new OpenIdConnectAuthenticationOptions
-            {
-            // Sets the ClientId, authority, RedirectUri as obtained from web.config
-            ClientId = clientId,
-                Authority = authority,
-                RedirectUri = redirectUri,
-            // PostLogoutRedirectUri is the page that users will be redirected to after sign-out. In this case, it is using the home page
-            PostLogoutRedirectUri = redirectUri,
-                Scope = OpenIdConnectScopes.OpenIdProfile,
-            // ResponseType is set to request the id_token - which contains basic information about the signed-in user
-            ResponseType = OpenIdConnectResponseTypes.IdToken,
-            // ValidateIssuer set to false to allow personal and work accounts from any organization to sign in to your application
-            // To only allow users from a single organizations, set ValidateIssuer to true and 'tenant' setting in web.config to the tenant name
-            // To allow users from only a list of specific organizations, set ValidateIssuer to true and use ValidIssuers parameter 
-            TokenValidationParameters = new System.IdentityModel.Tokens.TokenValidationParameters() { ValidateIssuer = false },
-            // OpenIdConnectAuthenticationNotifications configures OWIN to send notification of failed authentications to OnAuthenticationFailed method
-            Notifications = new OpenIdConnectAuthenticationNotifications
-                {
-                    AuthenticationFailed = OnAuthenticationFailed
-                }
-            }
-        );
-        }
-
-        /// <summary>
-        /// Handle failed authentication requests by redirecting the user to the home page with an error in the query string
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        private Task OnAuthenticationFailed(AuthenticationFailedNotification<Microsoft.IdentityModel.Protocols.OpenIdConnectMessage, OpenIdConnectAuthenticationOptions> context)
-        {
-            context.HandleResponse();
-            context.Response.Redirect("/?errormessage=" + context.Exception.Message);
-            return Task.FromResult(0);
-        }
-    }*/
-
     public partial class Startup
     {
-        // The Client ID is used by the application to uniquely identify itself to Azure AD.
         string clientId = System.Configuration.ConfigurationManager.AppSettings["ClientId"];
-
-        // RedirectUri is the URL where the user will be redirected to after they sign in.
         string redirectUri = System.Configuration.ConfigurationManager.AppSettings["RedirectUri"];
-
-        // Tenant is the tenant ID (e.g. contoso.onmicrosoft.com, or 'common' for multi-tenant)
         static string tenant = System.Configuration.ConfigurationManager.AppSettings["Tenant"];
-
-        // Authority is the URL for authority, composed by Azure Active Directory v2 endpoint and the tenant name (e.g. https://login.microsoftonline.com/contoso.onmicrosoft.com/v2.0)
         string authority = String.Format(System.Globalization.CultureInfo.InvariantCulture, System.Configuration.ConfigurationManager.AppSettings["Authority"], tenant);
 
         /// <summary>
@@ -102,37 +29,29 @@ namespace ToDoList
         /// <param name="app"></param>
         public void Configuration(IAppBuilder app)
         {
-            app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+            //app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
+            ConfigureAuth(app);
+           /* app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            //app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
-            //app.CreatePerOwinContext<AppRoleManager>(AppRoleManager.Create);
-            app.UseOpenIdConnectAuthentication(
+            /*app.UseOpenIdConnectAuthentication(
             new OpenIdConnectAuthenticationOptions
             {
-                // Sets the ClientId, authority, RedirectUri as obtained from web.config
                 ClientId = clientId,
                 Authority = authority,
                 RedirectUri = redirectUri,
-                // PostLogoutRedirectUri is the page that users will be redirected to after sign-out. In this case, it is using the home page
                 PostLogoutRedirectUri = redirectUri,
                 Scope = OpenIdConnectScope.OpenIdProfile,
-                // ResponseType is set to request the id_token - which contains basic information about the signed-in user
                 ResponseType = OpenIdConnectResponseType.IdToken,
-                // ValidateIssuer set to false to allow personal and work accounts from any organization to sign in to your application
-                // To only allow users from a single organizations, set ValidateIssuer to true and 'tenant' setting in web.config to the tenant name
-                // To allow users from only a list of specific organizations, set ValidateIssuer to true and use ValidIssuers parameter 
                 TokenValidationParameters = new System.IdentityModel.Tokens.TokenValidationParameters() { ValidateIssuer = false },
-                // OpenIdConnectAuthenticationNotifications configures OWIN to send notification of failed authentications to OnAuthenticationFailed method
                 Notifications = new OpenIdConnectAuthenticationNotifications
                 {
                     AuthenticationFailed = OnAuthenticationFailed
                 }
             }
-        );
+        );*/
         }
 
         /// <summary>
@@ -142,21 +61,10 @@ namespace ToDoList
         /// <returns></returns>
         // private Task OnAuthenticationFailed(AuthenticationFailedNotification<Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectMessage, OpenIdConnectAuthenticationOptions> context)
         private Task OnAuthenticationFailed(AuthenticationFailedNotification<Microsoft.IdentityModel.Protocols.OpenIdConnectMessage, OpenIdConnectAuthenticationOptions> context)
-
         {
-            WriteLog(context.Exception.Message);
             context.HandleResponse();
             context.Response.Redirect("/?errormessage=" + context.Exception.Message);
             return Task.FromResult(0);
-        }
-
-        private void WriteLog(string text)
-        {
-            using (StreamWriter sw = new StreamWriter("D:\\VS2017_Projects\\todolog.txt", append: true))
-            {
-                sw.WriteLine(DateTime.Now.ToString() + "   " + text);
-            }
-        }
+        }        
     }
-
 }

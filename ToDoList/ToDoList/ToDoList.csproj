@@ -270,6 +270,10 @@
     <Compile Include="Migrations\201804121345314_file field added to task.Designer.cs">
       <DependentUpon>201804121345314_file field added to task.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804141551204_Names changed.cs" />
+    <Compile Include="Migrations\201804141551204_Names changed.Designer.cs">
+      <DependentUpon>201804141551204_Names changed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Folder.cs" />
@@ -408,6 +412,7 @@
     <Content Include="Views\Claims\Index.cshtml" />
     <Content Include="Views\Home2\SignIn.cshtml" />
     <Content Include="Views\Claims\Calendar.cshtml" />
+    <Content Include="Views\Claims\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -429,6 +434,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804121345314_file field added to task.resx">
       <DependentUpon>201804121345314_file field added to task.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804141551204_Names changed.resx">
+      <DependentUpon>201804141551204_Names changed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -265,6 +265,7 @@ namespace ToDoList.Controllers
             { 
                 TaskToDo taskToDo = task.TaskToDo;
                 taskToDo.Id = Guid.NewGuid();
+                taskToDo.StartDate = DateTime.Now;
                 Models.Folder folder = db.Folders.Find(task.FolderId);
                 if (folder == null)
                     return View(task);
@@ -299,7 +300,7 @@ namespace ToDoList.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,IsDone,StartDate,IsFavorite,Priority")] TaskToDo taskToDo)
+        public ActionResult Edit([Bind(Include = "Id,Description,IsDone,StartDate,IsFavorite")] TaskToDo taskToDo)
         {
             if (ModelState.IsValid)
             {
