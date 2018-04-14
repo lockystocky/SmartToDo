@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,9 +20,15 @@ namespace ToDoList.Controllers
             return View();
         }
 
+        [Authorize]
         public JsonResult IsFolderNameAvailable(string Name)
         {
-            bool folderAvailable = db.Folders.Where(f => f.Name == Name).Count() == 0;
+            var context = new ApplicationDbContext();
+            var currentUserId = User.Identity.GetUserId();
+
+            bool folderAvailable = db.Folders
+                .Where(f => f.Name == Name && f.AppUserId == currentUserId)
+                .Count() == 0;
 
             return Json(folderAvailable, JsonRequestBehavior.AllowGet);
         }

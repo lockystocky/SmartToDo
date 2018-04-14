@@ -1,0 +1,66 @@
+--- task1
+
+select e.EmployeeID, count(*) as OrderCount
+from dbo.Orders as o inner join dbo.Employees as e on o.EmployeeID = e.EmployeeID
+where o.ShipCountry = 'Germany'
+group by e.EmployeeID
+
+
+--- task2
+select distinct c.ContactName
+from dbo.Customers as c inner join dbo.Orders as o on c.CustomerID = o.CustomerID
+where month(o.OrderDate) in (6, 7, 8)
+
+-- task3
+select sum(od.Quantity * od.UnitPrice*(1 - od.Discount) ), c.CustomerID
+from dbo.Customers as c inner join dbo.Orders as o on c.CustomerID = o.CustomerID
+		inner join dbo.[Order Details] as od on o.OrderID = od.OrderID
+group by c.CustomerID
+
+
+-- task4
+select c.CustomerID
+from dbo.Customers as c inner join dbo.Orders as o on c.CustomerID = o.CustomerID
+		inner join dbo.[Order Details] as od on o.OrderID = od.OrderID
+group by c.CustomerID
+having sum(od.Quantity * od.UnitPrice*(1 - od.Discount) ) > 10000
+
+
+
+-- task5
+
+select avg(p.UnitPrice) as avgprice, c.CategoryID
+from dbo.Categories as c inner join dbo.Products as p on c.CategoryID = p.CategoryID
+group by c.CategoryID
+
+
+-- task6
+select od.ProductID, sum(od.Quantity * od.UnitPrice * (1 - od.Discount)) as Total
+from dbo.Orders as o inner join dbo.[Order Details] as od on o.OrderID = od.OrderID
+inner join dbo.Products as p on p.ProductID = od.ProductID
+where o.ShipCountry = 'France'
+group by od.ProductID
+having sum(od.Quantity * od.UnitPrice * (1 - od.Discount)) > 1000
+
+
+-- task 7
+select o1.ShipCity
+from dbo.Orders as o1
+where o1.OrderID = (
+select top(1) o.OrderID
+from dbo.Orders as o inner join dbo.[Order Details] as od on o.OrderID = od.OrderID
+inner join dbo.Products as p on p.ProductID = od.ProductID
+inner join dbo.Categories as c on c.CategoryID = p.CategoryID
+where c.CategoryName = 'Seafood'
+group by o.OrderID
+order by max(od.Quantity * od.UnitPrice * (1 - od.Discount)) desc)
+
+
+-- task 8
+select top(1) o.ShipCity
+from dbo.Orders as o inner join dbo.[Order Details] as od on o.OrderID = od.OrderID
+inner join dbo.Products as p on p.ProductID = od.ProductID
+inner join dbo.Categories as c on c.CategoryID = p.CategoryID
+where c.CategoryName = 'Seafood'
+group by o.ShipCity
+order by sum(od.Quantity * od.UnitPrice * (1 - od.Discount)) desc

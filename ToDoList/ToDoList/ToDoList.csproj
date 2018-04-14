@@ -274,6 +274,10 @@
     <Compile Include="Migrations\201804141551204_Names changed.Designer.cs">
       <DependentUpon>201804141551204_Names changed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804141745586_Ind folders and tasks added.cs" />
+    <Compile Include="Migrations\201804141745586_Ind folders and tasks added.Designer.cs">
+      <DependentUpon>201804141745586_Ind folders and tasks added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Folder.cs" />
@@ -296,10 +300,13 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\delete_icon.png" />
+    <Content Include="Content\Images\done.png" />
     <Content Include="Content\Images\favorite_icon.png" />
     <Content Include="Content\Images\folder_blue_icon.png" />
+    <Content Include="Content\Images\index_example.png" />
     <Content Include="Content\Images\not_favorite_icon.png" />
     <Content Include="Content\Images\task_icon.png" />
+    <Content Include="Content\Images\undone.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -437,6 +444,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804141551204_Names changed.resx">
       <DependentUpon>201804141551204_Names changed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804141745586_Ind folders and tasks added.resx">
+      <DependentUpon>201804141745586_Ind folders and tasks added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -23,14 +23,22 @@
                     <img class="card-img-bottom delete-icon" style="width: 25px; margin-left: 10px; float: right;" src="~/Content/Images/delete_icon.png" alt="Delete image">
 
                     @if (task.IsFavorite)
-                    {
-                        <img class="card-img-bottom favorite-icon" style="width: 25px; float: right;" src="~/Content/Images/favorite_icon.png" alt="Favorite image">
-                    }
+    {
+                <img class="card-img-bottom favorite-icon" style="width: 25px; float: right;" src="~/Content/Images/favorite_icon.png" alt="Favorite image">
+}
                     @if (!task.IsFavorite)
-                    {
-                        <img class="card-img-bottom favorite-icon" style="width: 25px; float: right;" src="~/Content/Images/not_favorite_icon.png" alt="Not favorite image">
+    {
+                <img class="card-img-bottom favorite-icon" style="width: 25px; float: right;" src="~/Content/Images/not_favorite_icon.png" alt="Not favorite image">
 
-                    }
+}
+                    @if (task.IsDone)
+    {
+                <img class="card-img-bottom done-icon" style="width: 25px; float: right; margin-right: 10px" src="~/Content/Images/done.png" alt="Favorite image">
+}
+                    @if (!task.IsDone)
+    {
+                <img class="card-img-bottom done-icon" style="width: 25px; float: right; margin-right: 10px" src="~/Content/Images/undone.png" alt="Favorite image">
+}
 
                 </div>
             </div>
@@ -63,6 +71,24 @@
 
     }
 
+    function changeDoneValue(taskId, currentFavoriteIconElem) {
+        $.ajax({
+            type: "POST",
+            url: "/tasks/changedonevalue/",// + taskId,
+            data: "{'taskId':'" + taskId + "'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(function () {
+            var currentIcon = currentFavoriteIconElem.attr('src');
+            if (currentIcon.endsWith('undone.png')) {
+                currentFavoriteIconElem.attr('src', '/Content/Images/done.png');
+            }
+            else {
+                currentFavoriteIconElem.attr('src', '/Content/Images/undone.png');
+            }
+        });
+    }
+
     function deleteTask(taskId, taskElem) {
         $.ajax({
             type: "POST",
@@ -89,6 +115,15 @@
             var taskId = $(this).find('span').first().attr('id');
             $(this).click(function () {
                 window.location.href = '/tasks/edit/' + taskId;
+            });
+        });
+
+        $('.done-icon').each(function () {
+            var iconElem = $(this);
+            var taskId = iconElem.siblings('span').first().attr('id');
+            iconElem.click(function (event) {
+                event.stopPropagation();
+                changeDoneValue(taskId, iconElem);
             });
         });
 

@@ -10,6 +10,8 @@ namespace ToDoList.Models
     {
         public Guid Id { get; set; }
 
+        public string AppUserId { get; set; }
+
         [Remote("IsFolderNameAvailable", "Validation", ErrorMessage = "Folder name already exists")]
         public string Name { get; set; }
     }
