@@ -1,0 +1,119 @@
+﻿@model ToDoList.Models.TasksAndFoldersViewModel
+
+@{
+    ViewBag.Title = "IndexWithFolders";
+}
+
+<h2>IndexWithFolders</h2>
+
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8">
+        @foreach (var folder in Model.Folders)
+        {
+            <div class="card folder">
+                <div class="card-body">
+                    <img class="card-img-bottom" style="width: 30px " src="~/Content/Images/folder_blue_icon.png" alt="Card image">
+                    <span style="margin-left: 10px" id="@folder.Name">@folder.Name</span>
+                </div>
+            </div>
+        }
+        @foreach (var task in Model.Tasks)
+        {
+            <div class="card task">
+                <div class="card-body">
+                    <img class="card-img-bottom" style="width: 30px " src="~/Content/Images/task_icon.png" alt="Task image">
+                    <span style="margin-left: 10px" id="@task.Id">@Html.Raw(task.Description)</span>
+                    <img class="card-img-bottom delete-icon" style="width: 25px; margin-left: 10px; float: right;" src="~/Content/Images/delete_icon.png" alt="Delete image">
+
+                    @if (task.IsFavorite)
+                    {
+                        <img class="card-img-bottom favorite-icon" style="width: 25px; float: right;" src="~/Content/Images/favorite_icon.png" alt="Favorite image">
+                    }
+                    @if (!task.IsFavorite)
+                    {
+                        <img class="card-img-bottom favorite-icon" style="width: 25px; float: right;" src="~/Content/Images/not_favorite_icon.png" alt="Not favorite image">
+
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-2">
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+    function changeFavoriteValue(taskId, currentFavoriteIconElem) {
+        $.ajax({
+            type: "POST",
+            url: "changefavoritevalue/",// + taskId,
+            data: "{'taskId':'" + taskId + "'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(function () {
+            var currentIcon = currentFavoriteIconElem.attr('src');
+            if (currentIcon.endsWith('not_favorite_icon.png')) {
+                currentFavoriteIconElem.attr('src', '/Content/Images/favorite_icon.png');
+            }
+            else {
+                currentFavoriteIconElem.attr('src', '/Content/Images/not_favorite_icon.png');
+            }
+        });
+
+    }
+
+    function deleteTask(taskId, taskElem) {
+        $.ajax({
+            type: "POST",
+            url: "deletetask/",// + taskId,
+            data: "{'id':'" + taskId + "'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(function () {
+            alert('success');
+            taskElem.hide();
+        });
+
+    }
+
+
+    $(function () {
+
+        $('.folder').each(function () {
+            var folderId = $(this).find('span').first().attr('id');
+            $(this).click(function () { window.location.href = '/tasks/folder/' + folderId; });
+        });
+
+        $('.task').each(function () {
+            var taskId = $(this).find('span').first().attr('id');
+            $(this).click(function () {
+                window.location.href = '/tasks/edit/' + taskId;
+            });
+        });
+
+        $('.favorite-icon').each(function () {
+            var iconElem = $(this);
+            var taskId = iconElem.siblings('span').first().attr('id');
+            iconElem.click(function (event) {
+                event.stopPropagation();
+                changeFavoriteValue(taskId, iconElem);                
+            });
+        });
+
+        $('.delete-icon').each(function () {
+            var iconElem = $(this);
+            var taskElem = iconElem.parents('.task').first();
+            var taskId = iconElem.siblings('span').first().attr('id');
+            iconElem.click(function (event) {
+                event.stopPropagation();
+                deleteTask(taskId, taskElem);
+            });
+        });
+    });
+</script>

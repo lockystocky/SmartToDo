@@ -1,0 +1,15 @@
+﻿@model List<ToDoList.Models.Hashtag>
+@{
+    ViewBag.Title = "GetAllHashtags";
+}
+
+<h2>GetAllHashtags</h2>
+@foreach(var tag in Model)
+{
+    <h3>@tag.Name</h3>
+    foreach(var task in tag.TasksWithHashtag)
+    {
+        <p>@task.Description</p>
+    }
+}
+
