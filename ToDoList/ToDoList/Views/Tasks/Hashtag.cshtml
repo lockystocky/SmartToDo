@@ -4,41 +4,42 @@
     ViewBag.Title = "Hashtag";
 }
 
-<h2>Tasks with hashtag</h2>
+
 
 <div class="row">
     <div class="col-md-2">
     </div>
     <div class="col-md-8">
+        <h4>Results of search by hashtag:</h4>
         @foreach (var task in Model)
-        {
-            <div class="card task">
-                <div class="card-body">
-                    <img class="card-img-bottom" style="width: 30px " src="~/Content/Images/task_icon.png" alt="Task image">
-                    <span style="margin-left: 10px" id="@task.Id">@Html.Raw(task.Description)</span>
-                    <img class="card-img-bottom delete-icon" style="width: 25px; margin-left: 10px; float: right;" src="~/Content/Images/delete_icon.png" alt="Delete image">
+    {
+        <div class="card task">
+            <div class="card-body">
+                <img class="card-img-bottom" style="width: 30px " src="~/Content/Images/task_icon.png" alt="Task image">
+                <span style="margin-left: 10px" id="@task.Id">@Html.Raw(task.Description)</span>
+                <img class="card-img-bottom delete-icon" style="width: 25px; margin-left: 10px; float: right;" src="~/Content/Images/delete_icon.png" alt="Delete image">
 
-                    @if (task.IsFavorite)
-    {
+                @if (task.IsFavorite)
+            {
                 <img class="card-img-bottom favorite-icon" style="width: 25px; float: right;" src="~/Content/Images/favorite_icon.png" alt="Favorite image">
-}
-                    @if (!task.IsFavorite)
-    {
+        }
+                @if (!task.IsFavorite)
+            {
                 <img class="card-img-bottom favorite-icon" style="width: 25px; float: right;" src="~/Content/Images/not_favorite_icon.png" alt="Not favorite image">
 
-}
-                    @if (task.IsDone)
-    {
-                <img class="card-img-bottom done-icon" style="width: 25px; float: right; margin-right: 10px" src="~/Content/Images/done.png" alt="Favorite image">
-}
-                    @if (!task.IsDone)
-    {
-                <img class="card-img-bottom done-icon" style="width: 25px; float: right; margin-right: 10px" src="~/Content/Images/undone.png" alt="Favorite image">
-}
-
-                </div>
-            </div>
         }
+                @if (task.IsDone)
+            {
+                <img class="card-img-bottom done-icon" style="width: 25px; float: right; margin-right: 10px" src="~/Content/Images/done.png" alt="Favorite image">
+        }
+                @if (!task.IsDone)
+            {
+                <img class="card-img-bottom done-icon" style="width: 25px; float: right; margin-right: 10px" src="~/Content/Images/undone.png" alt="Favorite image">
+        }
+
+            </div>
+        </div>
+}
     </div>
     <div class="col-md-2">
     </div>

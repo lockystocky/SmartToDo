@@ -33,7 +33,7 @@ namespace ToDoList.Controllers
         }
 
         // GET: Tasks
-        public ActionResult Index()
+       /* public ActionResult Index()
         {
             var tasks = db.TaskToDoes.ToList();
             for(int i = 0; i < tasks.Count; i++)
@@ -47,7 +47,7 @@ namespace ToDoList.Controllers
                      }
             }
             return View(tasks);
-        }
+        }*/
 
         private void InsertHashtagReferences(List<TaskToDo> tasks)
         {
@@ -101,41 +101,30 @@ namespace ToDoList.Controllers
             return View(tasks);
         }
 
+        [Authorize]
         public ActionResult IndexWithFolders()
         {
-            if (Request.IsAuthenticated)
-            {
-                var context = new ApplicationDbContext();
-                var currentUserId = User.Identity.GetUserId();
+            var context = new ApplicationDbContext();
+            var currentUserId = User.Identity.GetUserId();
 
-                TasksAndFoldersViewModel tasksAndFoldersForAuth = new TasksAndFoldersViewModel();
+            TasksAndFoldersViewModel tasksAndFoldersForAuth = new TasksAndFoldersViewModel();
 
-                var tasksForAuth = db.TaskToDoes
-                    .Where(task => task.Folder.Name == "Default" && task.AppUserId == currentUserId)
-                    .ToList();
+            var tasksForAuth = db.TaskToDoes
+                .Where(task => task.Folder.Name == "Default" && task.AppUserId == currentUserId)
+                .ToList();
 
-                InsertHashtagReferences(tasksForAuth);
-                tasksAndFoldersForAuth.Tasks = tasksForAuth;
+            InsertHashtagReferences(tasksForAuth);
+            tasksAndFoldersForAuth.Tasks = tasksForAuth;
 
-                var foldersForAuth = db.Folders
-                    .Where(folder => folder.Name != "Default" && folder.AppUserId == currentUserId)
-                    .ToList();
+            var foldersForAuth = db.Folders
+                .Where(folder => folder.Name != "Default" && folder.AppUserId == currentUserId)
+                .ToList();
 
-                tasksAndFoldersForAuth.Folders = foldersForAuth;
+            tasksAndFoldersForAuth.Folders = foldersForAuth;
 
-                return View(tasksAndFoldersForAuth);
-            }
-
-            TasksAndFoldersViewModel tasksAndFolders = new TasksAndFoldersViewModel();
-            var tasks = db.TaskToDoes.Where(task => task.Folder.Name == "Default").ToList();           
-            InsertHashtagReferences(tasks);
-            tasksAndFolders.Tasks = tasks;
-            var folders = db.Folders.Where(folder => folder.Name != "Default").ToList();
-            tasksAndFolders.Folders = folders;
-
-            return View(tasksAndFolders);
+            return View(tasksAndFoldersForAuth);
         }
-
+        
         [Authorize]
         [Route("tasks/hashtag/{tag}")]
         public ActionResult Hashtag(string tag)
@@ -154,63 +143,12 @@ namespace ToDoList.Controllers
                 .Where(t => t.AppUserId == currentUserId)
                 .ToList();
 
-            InsertHashtagReferences(tasksWithHashtag);            
+            InsertHashtagReferences(tasksWithHashtag);
 
             return View(tasksWithHashtag);
         }
 
-        // GET: Tasks/Details/5
-        public ActionResult Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TaskToDo taskToDo = db.TaskToDoes.Find(id);
-            if (taskToDo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(taskToDo);
-        }
-
-        public ActionResult GetCalendar()
-        {
-            Application msOutlook = new Application();
-            NameSpace session = msOutlook.Session;
-            Stores stores = session.Stores;
-            string str = "No info ";
-            foreach (Store store in stores)
-            {
-                MAPIFolder folder = store.GetDefaultFolder(OlDefaultFolders.olFolderCalendar);
-
-                str += folder.Name;
-            }
-            return View(str);
-        }
-
-        // GET: Tasks/Create
-        [Authorize]
-        public ActionResult Create()
-        {
-            var context = new ApplicationDbContext();
-            var currentUserId = User.Identity.GetUserId();
-
-            TaskViewModel taskViewModel = new TaskViewModel();
-            var folders = db.Folders.Where(f => f.AppUserId == currentUserId).ToList();
-            bool defaultFolderExists = folders.Where(f => f.Name == "Default").Count() > 0;
-            if(!defaultFolderExists)
-            {
-                Models.Folder defaultFolder = 
-                    new Models.Folder { Name = "Default", Id = Guid.NewGuid(), AppUserId = currentUserId };
-                db.Folders.Add(defaultFolder);
-                db.SaveChanges();
-                folders.Add(defaultFolder);
-            }
-            taskViewModel.AvailableFolders = new SelectList(folders, "Id", "Name");
-            return View(taskViewModel);
-        }
-
+        
         [Authorize]
         public ActionResult CreateWithFile()
         {
@@ -241,37 +179,34 @@ namespace ToDoList.Controllers
             {
                 var context = new ApplicationDbContext();
                 var currentUserId = User.Identity.GetUserId();
-
-                WriteLog("CreateWithFile, model is valid");
-
-                if (file == null)
-                    WriteLog("file is null");
-
+                               
                 string path = "";
-
                 if (file != null && file.ContentLength > 0)
                 {
                     path = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(file.FileName));
-                    WriteLog("filename = " + Path.GetFileName(file.FileName));
                     file.SaveAs(path);
                 }
                     
                 TaskToDo taskToDo = task.TaskToDo;
                 taskToDo.Id = Guid.NewGuid();
                 Models.Folder folder = db.Folders.Find(task.FolderId);
+
                 if (folder == null)
                     return View(task);
+
                 taskToDo.Folder = folder;
                 taskToDo.StartDate = DateTime.Now;
                 taskToDo.AppUserId = currentUserId;
                 taskToDo.PathToAttachedFile = path;
+
                 db.TaskToDoes.Add(taskToDo);
+
                 if (taskToDo.Description.Contains("#"))
                     ManageHashtags(taskToDo);
+
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexWithFolders");
             }
-            WriteLog("CreateWithFile, model is ivalid");
 
             return View(task);
         }
@@ -296,7 +231,7 @@ namespace ToDoList.Controllers
                 db.Folders.Add(folder);
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexWithFolders");
             }
 
             return View(folder);
@@ -349,39 +284,7 @@ namespace ToDoList.Controllers
             db.SaveChanges();
         }
 
-        // POST: Tasks/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(TaskViewModel task)
-        {
-            
-            if (ModelState.IsValid)
-            { 
-                TaskToDo taskToDo = task.TaskToDo;
-
-                var context = new ApplicationDbContext();
-                var currentUserId = User.Identity.GetUserId();
-
-                taskToDo.AppUserId = currentUserId;
-
-                taskToDo.Id = Guid.NewGuid();
-                taskToDo.StartDate = DateTime.Now;
-                Models.Folder folder = db.Folders.Find(task.FolderId);
-                if (folder == null)
-                    return View(task);
-                taskToDo.Folder = folder;
-                db.TaskToDoes.Add(taskToDo);
-                if (taskToDo.Description.Contains("#"))
-                    ManageHashtags(taskToDo);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(task);
-        }
+        
 
         // GET: Tasks/Edit/5
         [Authorize]
@@ -405,42 +308,20 @@ namespace ToDoList.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,IsDone,StartDate,IsFavorite")] TaskToDo taskToDo)
+        public ActionResult Edit(TaskToDo taskToDo)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(taskToDo).State = EntityState.Modified;
+                var editedTask = db.TaskToDoes.Find(taskToDo.Id);
+                editedTask.Description = taskToDo.Description;
+                editedTask.IsDone = taskToDo.IsDone;
+                editedTask.IsFavorite = taskToDo.IsFavorite;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexWithFolders");
             }
             return View(taskToDo);
         }
-
-        // GET: Tasks/Delete/5
-        public ActionResult Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TaskToDo taskToDo = db.TaskToDoes.Find(id);
-            if (taskToDo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(taskToDo);
-        }
-
-        // POST: Tasks/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
-        {
-            TaskToDo taskToDo = db.TaskToDoes.Find(id);
-            db.TaskToDoes.Remove(taskToDo);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+                
 
         [HttpPost]
         public ActionResult DeleteTask(Guid? id)

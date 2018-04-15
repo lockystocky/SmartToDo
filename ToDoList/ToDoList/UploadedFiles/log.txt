@@ -1,0 +1,73 @@
+controller:products action:index,  request start time: 9:42:26 PM
+controller:products action:index,  request end time: 9:42:29 PM
+controller:products action:index,  request execution time: 2397
+controller:Products action:Details,  request start time: 9:42:32 PM
+controller:Products action:Details,  request end time: 9:42:32 PM
+controller:Products action:Details,  request execution time: 28
+controller:products action:index,  request start time: 9:58:04 AM
+controller:products action:index,  request end time: 9:58:08 AM
+controller:products action:index,  request execution time: 3623
+controller:products action:index,  request start time: 9:58:08 AM
+controller:products action:index,  request end time: 9:58:08 AM
+controller:products action:index,  request execution time: 8
+controller:Products action:Details,  request start time: 9:58:19 AM
+controller:Products action:Details,  request end time: 9:58:19 AM
+controller:Products action:Details,  request execution time: 36
+controller:products action:index,  request start time: 9:58:23 AM
+controller:products action:index,  request end time: 9:58:23 AM
+controller:products action:index,  request execution time: 6
+controller:Products action:Details,  request start time: 9:58:25 AM
+controller:Products action:Details,  request end time: 9:58:25 AM
+controller:Products action:Details,  request execution time: 7
+controller:products action:index,  request start time: 9:58:28 AM
+controller:products action:index,  request end time: 9:58:28 AM
+controller:products action:index,  request execution time: 7
+controller:products action:Create,  request start time: 9:58:29 AM
+controller:products action:Create,  request end time: 9:58:29 AM
+controller:products action:Create,  request execution time: 5
+controller:products action:Create,  request start time: 9:59:05 AM
+Name = Book
+Descr = Dfghj;lkj sd;lkjhghj
+Country = Ukraine
+City = Kyiv
+controller:products action:Create,  request end time: 9:59:05 AM
+controller:products action:Create,  request execution time: 285
+controller:products action:Index,  request start time: 9:59:05 AM
+controller:products action:Index,  request end time: 9:59:05 AM
+controller:products action:Index,  request execution time: 5
+controller:products action:index,  request start time: 10:04:13 AM
+controller:products action:index,  request end time: 10:04:13 AM
+controller:products action:index,  request execution time: 7
+controller:Products action:Details,  request start time: 10:04:36 AM
+controller:Products action:Details,  request end time: 10:04:36 AM
+controller:Products action:Details,  request execution time: 9
+controller:Products action:Index,  request start time: 10:05:39 AM
+controller:Products action:Index,  request end time: 10:05:39 AM
+controller:Products action:Index,  request execution time: 6
+controller:Products action:Create,  request start time: 10:05:48 AM
+controller:Products action:Create,  request end time: 10:05:48 AM
+controller:Products action:Create,  request execution time: 4
+controller:Products action:Create,  request start time: 10:06:30 AM
+controller:Products action:Create,  request end time: 10:06:30 AM
+controller:Products action:Create,  request execution time: 5
+controller:Products action:Create,  request start time: 10:07:17 AM
+controller:Products action:Create,  request end time: 10:07:17 AM
+controller:Products action:Create,  request execution time: 5
+controller:Products action:Create,  request start time: 10:08:13 AM
+controller:Products action:Create,  request end time: 10:08:13 AM
+controller:Products action:Create,  request execution time: 5
+controller:Products action:Create,  request start time: 10:12:03 AM
+controller:Products action:Create,  request end time: 10:12:03 AM
+controller:Products action:Create,  request execution time: 6
+controller:products action:index,  request start time: 10:12:18 AM
+controller:products action:index,  request end time: 10:12:18 AM
+controller:products action:index,  request execution time: 90
+controller:Products action:Index,  request start time: 10:15:25 AM
+controller:Products action:Index,  request end time: 10:15:25 AM
+controller:Products action:Index,  request execution time: 455
+controller:Products action:Index,  request start time: 10:15:57 AM
+controller:Products action:Index,  request end time: 10:15:57 AM
+controller:Products action:Index,  request execution time: 9
+controller:Products action:Index,  request start time: 10:16:08 AM
+controller:Products action:Index,  request end time: 10:16:08 AM
+controller:Products action:Index,  request execution time: 7
