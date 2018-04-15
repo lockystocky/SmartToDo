@@ -46,18 +46,7 @@ namespace ToDoList.Controllers
         public ApplicationUserManager UserManager
         {
             get
-            {
-                /*using System.Net.Http;
-using System.Web;
-using Microsoft.Owin;*/
-                /*var context = Request. as HttpContextWrapper;
-                if (context != null)
-                {
-                    return HttpContextBaseExtensions.GetOwinContext(context.Request) */
-                //return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-               // var manager = HttpContext.Current.GetOwinContext().GetUserManager<UserManager<User>>();
-                var h = HttpContext.GetOwinContext();
-                var hh = h.GetUserManager<ApplicationSignInManager>();
+            {                
                 return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
             private set

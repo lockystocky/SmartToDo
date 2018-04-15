@@ -324,3 +324,7 @@ D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\RazorEngine.dll
 D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\Postal.xml
 D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\RazorEngine.pdb
 D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\RazorEngine.xml
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\Autofac.dll
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\Autofac.Integration.Mvc.dll
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\Autofac.xml
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\Autofac.Integration.Mvc.xml

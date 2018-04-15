@@ -10,13 +10,19 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using ToDoList.DbInfrasrtucture;
 using ToDoList.Models;
 
 namespace ToDoList.Controllers
 {
     public class TasksController : Controller
     {
-        private TasksDbContext db = new TasksDbContext();
+        private ITasksDbContext db;
+
+        public TasksController(ITasksDbContext context)
+        {
+            this.db = context;
+        }
 
         [Route("tasks/download/{taskId}")]
         public ActionResult DownloadTaskAttachment(Guid taskId)
@@ -358,10 +364,10 @@ namespace ToDoList.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            /*if (disposing)
             {
                 db.Dispose();
-            }
+            }*/
             base.Dispose(disposing);
         }
     }
