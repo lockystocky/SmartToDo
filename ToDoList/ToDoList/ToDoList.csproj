@@ -367,6 +367,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\MyScripts\default.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -415,7 +416,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Tasks\Delete.cshtml" />
     <Content Include="Views\Tasks\Edit.cshtml" />
-    <Content Include="Views\Tasks\GetAllHashtags.cshtml" />
     <Content Include="Views\Tasks\Hashtag.cshtml" />
     <Content Include="Views\Tasks\CreateFolder.cshtml" />
     <Content Include="Views\Tasks\IndexWithFolders.cshtml" />
