@@ -14,12 +14,7 @@ namespace ToDoList.Controllers
     public class ValidationController : Controller
     {
         private TasksDbContext db = new TasksDbContext();
-        // GET: Validation
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+        
         [Authorize]
         public JsonResult IsFolderNameAvailable(string Name)
         {
@@ -31,18 +26,6 @@ namespace ToDoList.Controllers
                 .Count() == 0;
 
             return Json(folderAvailable, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult IsFolderNameValid(string Name)
-        {
-            foreach (char invalidChar in Path.GetInvalidFileNameChars())
-            {
-                if (Name.Length < 1 || Name.Contains(invalidChar))
-                {
-                    return Json(false, JsonRequestBehavior.AllowGet);
-                }
-            }
-            return Json(true, JsonRequestBehavior.AllowGet);
-        }
+        }        
     }
 }

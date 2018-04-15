@@ -25,29 +25,13 @@ namespace ToDoList.Controllers
 
             if (taskToDo == null)
                 return HttpNotFound();
+
             string filePath = taskToDo.PathToAttachedFile;            
             byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
             string fileName = Path.GetFileName(filePath);
 
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-        }
-
-        // GET: Tasks
-       /* public ActionResult Index()
-        {
-            var tasks = db.TaskToDoes.ToList();
-            for(int i = 0; i < tasks.Count; i++)
-            {
-                Regex regex = new Regex(@"#\w+");
-                foreach (Match match in regex.Matches(tasks[i].Description))
-                {
-                    string tag = match.Value;
-                    string href = Url.Action("Hashtag", "Tasks") + "\\" + tag.Substring(1);
-                    tasks[i].Description = tasks[i].Description.Replace(tag, String.Format("<a href=\"{0}\">{1}</a>", href, tag));
-                     }
-            }
-            return View(tasks);
-        }*/
+        }       
 
         private void InsertHashtagReferences(List<TaskToDo> tasks)
         {
@@ -58,7 +42,8 @@ namespace ToDoList.Controllers
                 {
                     string tag = match.Value;
                     string href = "/tasks/hashtag/" + tag.Substring(1);
-                    tasks[i].Description = tasks[i].Description.Replace(tag, String.Format("<a href=\"{0}\">{1}</a>", href, tag));
+                    tasks[i].Description = tasks[i].Description
+                        .Replace(tag, String.Format("<a href=\"{0}\">{1}</a>", href, tag));
                 }
             }
         }
@@ -72,6 +57,7 @@ namespace ToDoList.Controllers
 
             task.IsFavorite = !task.IsFavorite;
             db.SaveChanges();
+
             return Json(new { success = "Valid" }, JsonRequestBehavior.AllowGet);
         }
 
@@ -84,6 +70,7 @@ namespace ToDoList.Controllers
 
             task.IsDone = !task.IsDone;
             db.SaveChanges();
+
             return Json(new { success = "Valid" }, JsonRequestBehavior.AllowGet);
         }
 
@@ -95,42 +82,45 @@ namespace ToDoList.Controllers
             if (folder == null)
                 return HttpNotFound();
 
-            var tasks = db.TaskToDoes.Where(task => task.Folder.Name == folderName).ToList();
+            var tasksInFolder = db.TaskToDoes
+                .Where(task => task.Folder.Name == folderName)
+                .ToList();
             
-            InsertHashtagReferences(tasks);
-            return View(tasks);
+            InsertHashtagReferences(tasksInFolder);
+            return View(tasksInFolder);
         }
 
         [Authorize]
         public ActionResult IndexWithFolders()
         {
-            var context = new ApplicationDbContext();
-            var currentUserId = User.Identity.GetUserId();
+            var currentUserId = GetCurrentUserId();
 
-            TasksAndFoldersViewModel tasksAndFoldersForAuth = new TasksAndFoldersViewModel();
+            TasksAndFoldersViewModel tasksAndFolders = new TasksAndFoldersViewModel();
 
-            var tasksForAuth = db.TaskToDoes
-                .Where(task => task.Folder.Name == "Default" && task.AppUserId == currentUserId)
+            var tasksInDefaultFolder = db.TaskToDoes
+                .Where(task => task.Folder.Name == "Default"
+                        && task.AppUserId == currentUserId)
                 .ToList();
 
-            InsertHashtagReferences(tasksForAuth);
-            tasksAndFoldersForAuth.Tasks = tasksForAuth;
+            InsertHashtagReferences(tasksInDefaultFolder);
 
-            var foldersForAuth = db.Folders
-                .Where(folder => folder.Name != "Default" && folder.AppUserId == currentUserId)
+            tasksAndFolders.Tasks = tasksInDefaultFolder;
+
+            var folders = db.Folders
+                .Where(folder => folder.Name != "Default" 
+                        && folder.AppUserId == currentUserId)
                 .ToList();
 
-            tasksAndFoldersForAuth.Folders = foldersForAuth;
+            tasksAndFolders.Folders = folders;
 
-            return View(tasksAndFoldersForAuth);
+            return View(tasksAndFolders);
         }
         
         [Authorize]
         [Route("tasks/hashtag/{tag}")]
         public ActionResult Hashtag(string tag)
         {
-            var context = new ApplicationDbContext();
-            var currentUserId = User.Identity.GetUserId();
+            var currentUserId = GetCurrentUserId();
 
             var hashtag = db.Hashtags
                 .Where(h => h.Name == tag)
@@ -148,56 +138,76 @@ namespace ToDoList.Controllers
             return View(tasksWithHashtag);
         }
 
-        
-        [Authorize]
-        public ActionResult CreateWithFile()
+        private string GetCurrentUserId()
         {
             var context = new ApplicationDbContext();
-            var currentUserId = User.Identity.GetUserId();
+            return User.Identity.GetUserId();
+        }
+
+
+        private Models.Folder CreateDefaultFolder(string userId)
+        {
+            Models.Folder defaultFolder = new Models.Folder
+            {
+                Name = "Default",
+                Id = Guid.NewGuid(),
+                AppUserId = userId
+            };
+            db.Folders.Add(defaultFolder);
+            db.SaveChanges();
+
+            return defaultFolder;
+        }
+
+        [Authorize]
+        //creates task with attachment
+        public ActionResult CreateWithFile()
+        {
+            var currentUserId = GetCurrentUserId();
 
             TaskViewModel taskViewModel = new TaskViewModel();
             var folders = db.Folders.Where(f => f.AppUserId == currentUserId).ToList();
             bool defaultFolderExists = folders.Where(f => f.Name == "Default").Count() > 0;
             if (!defaultFolderExists)
             {
-                Models.Folder defaultFolder =
-                    new Models.Folder { Name = "Default", Id = Guid.NewGuid(), AppUserId = currentUserId };
-                db.Folders.Add(defaultFolder);
-                db.SaveChanges();
-                folders.Add(defaultFolder);
+                var newDefaultFolder = CreateDefaultFolder(currentUserId);
+                folders.Add(newDefaultFolder);
             }
             taskViewModel.AvailableFolders = new SelectList(folders, "Id", "Name");
             return View(taskViewModel);
         }
 
+        private string SaveUploadedFile(HttpPostedFileBase file)
+        {
+            string pathToFile = "";
+            if (file != null && file.ContentLength > 0)
+            {
+                pathToFile = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(file.FileName));
+                file.SaveAs(pathToFile);
+            }
+            return pathToFile;
+        }
+
         [HttpPost]
         [Authorize]
+        //creates task with attachment
         public ActionResult CreateWithFile(TaskViewModel task, HttpPostedFileBase file)
         {
 
             if (ModelState.IsValid)
             {
-                var context = new ApplicationDbContext();
-                var currentUserId = User.Identity.GetUserId();
-                               
-                string path = "";
-                if (file != null && file.ContentLength > 0)
-                {
-                    path = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(file.FileName));
-                    file.SaveAs(path);
-                }
+                var currentUserId = GetCurrentUserId();
+
+                string pathToFile = SaveUploadedFile(file);                 
                     
                 TaskToDo taskToDo = task.TaskToDo;
                 taskToDo.Id = Guid.NewGuid();
-                Models.Folder folder = db.Folders.Find(task.FolderId);
-
-                if (folder == null)
-                    return View(task);
+                Models.Folder folder = db.Folders.Find(task.FolderId);             
 
                 taskToDo.Folder = folder;
                 taskToDo.StartDate = DateTime.Now;
                 taskToDo.AppUserId = currentUserId;
-                taskToDo.PathToAttachedFile = path;
+                taskToDo.PathToAttachedFile = pathToFile;
 
                 db.TaskToDoes.Add(taskToDo);
 
@@ -225,9 +235,7 @@ namespace ToDoList.Controllers
             if (ModelState.IsValid)
             {
                 folder.Id = Guid.NewGuid();
-                var context = new ApplicationDbContext();
-                var currentUserId = User.Identity.GetUserId();
-                folder.AppUserId = currentUserId;
+                folder.AppUserId = GetCurrentUserId();
                 db.Folders.Add(folder);
                 db.SaveChanges();
 
@@ -258,30 +266,32 @@ namespace ToDoList.Controllers
             foreach (Match match in regex.Matches(task.Description))
             {
                 string tag = match.Value.Substring(1).ToLower();
-                WriteLog(tag);
 
                Hashtag hashtag = db.Hashtags.FirstOrDefault(h => h.Name == tag);
 
-                if (hashtag != null)
-                {
-                    if (hashtag.TasksWithHashtag == null)
-                        hashtag.TasksWithHashtag = new List<TaskToDo>();
+                if (hashtag == null)
+                    hashtag = CreateHashtag(tag, task);
+                
+                if (hashtag.TasksWithHashtag == null)
+                    hashtag.TasksWithHashtag = new List<TaskToDo>();
 
-                    if(!hashtag.TasksWithHashtag.Contains(task))
-                        hashtag.TasksWithHashtag.Add(task);
-                }
-                else
-                {
-                    hashtag = new Hashtag()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = tag,
-                        TasksWithHashtag = new List<TaskToDo>() { task }
-                    };
-                    db.Hashtags.Add(hashtag);
-                }
+                if(!hashtag.TasksWithHashtag.Contains(task))
+                    hashtag.TasksWithHashtag.Add(task);
+               
             }
             db.SaveChanges();
+        }
+
+        private Hashtag CreateHashtag(string tag, TaskToDo task)
+        {
+            var hashtag = new Hashtag()
+            {
+                Id = Guid.NewGuid(),
+                Name = tag,
+                TasksWithHashtag = new List<TaskToDo>() { task }
+            };
+            db.Hashtags.Add(hashtag);
+            return hashtag;
         }
 
         
@@ -313,9 +323,11 @@ namespace ToDoList.Controllers
             if (ModelState.IsValid)
             {
                 var editedTask = db.TaskToDoes.Find(taskToDo.Id);
+
                 editedTask.Description = taskToDo.Description;
                 editedTask.IsDone = taskToDo.IsDone;
                 editedTask.IsFavorite = taskToDo.IsFavorite;
+
                 db.SaveChanges();
                 return RedirectToAction("IndexWithFolders");
             }
