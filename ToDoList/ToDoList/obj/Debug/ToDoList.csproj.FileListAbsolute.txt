@@ -312,3 +312,15 @@ D:\VS2017_Projects\TDL\ToDoList\ToDoList\obj\Debug\ToDoList.dll
 D:\VS2017_Projects\TDL\ToDoList\ToDoList\obj\Debug\ToDoList.pdb
 D:\VS2017_Projects\TDL\ToDoList\ToDoList\obj\Debug\ToDoList.Migrations.Nameschanged.resources
 D:\VS2017_Projects\TDL\ToDoList\ToDoList\obj\Debug\ToDoList.Migrations.Indfoldersandtasksadded.resources
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\Hangfire.Core.dll
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\Hangfire.SqlServer.dll
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\Hangfire.Core.xml
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\Hangfire.SqlServer.xml
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\es\Hangfire.Core.resources.dll
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\zh\Hangfire.Core.resources.dll
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\zh-TW\Hangfire.Core.resources.dll
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\Postal.dll
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\RazorEngine.dll
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\Postal.xml
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\RazorEngine.pdb
+D:\VS2017_Projects\TDL\ToDoList\ToDoList\bin\RazorEngine.xml

@@ -12,6 +12,8 @@ using System;
 using ToDoList.Models;
 using System.IO;
 using Microsoft.AspNet.Identity;
+using Hangfire;
+using ToDoList.Models;
 
 [assembly: OwinStartupAttribute(typeof(ToDoList.Startup))]
 namespace ToDoList
@@ -29,29 +31,34 @@ namespace ToDoList
         /// <param name="app"></param>
         public void Configuration(IAppBuilder app)
         {
-            //app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
             ConfigureAuth(app);
-           /* app.UseCookieAuthentication(new CookieAuthenticationOptions());
-            //app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
-            /*app.UseOpenIdConnectAuthentication(
-            new OpenIdConnectAuthenticationOptions
-            {
-                ClientId = clientId,
-                Authority = authority,
-                RedirectUri = redirectUri,
-                PostLogoutRedirectUri = redirectUri,
-                Scope = OpenIdConnectScope.OpenIdProfile,
-                ResponseType = OpenIdConnectResponseType.IdToken,
-                TokenValidationParameters = new System.IdentityModel.Tokens.TokenValidationParameters() { ValidateIssuer = false },
-                Notifications = new OpenIdConnectAuthenticationNotifications
-                {
-                    AuthenticationFailed = OnAuthenticationFailed
-                }
-            }
-        );*/
+
+            ToDoList.Models.Hangfire.ConfigureHangfire(app);
+            ToDoList.Models.Hangfire.InitializeJobs();
+
+            //app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
+
+            /* app.UseCookieAuthentication(new CookieAuthenticationOptions());
+             //app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+             app.CreatePerOwinContext(ApplicationDbContext.Create);
+             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+             /*app.UseOpenIdConnectAuthentication(
+             new OpenIdConnectAuthenticationOptions
+             {
+                 ClientId = clientId,
+                 Authority = authority,
+                 RedirectUri = redirectUri,
+                 PostLogoutRedirectUri = redirectUri,
+                 Scope = OpenIdConnectScope.OpenIdProfile,
+                 ResponseType = OpenIdConnectResponseType.IdToken,
+                 TokenValidationParameters = new System.IdentityModel.Tokens.TokenValidationParameters() { ValidateIssuer = false },
+                 Notifications = new OpenIdConnectAuthenticationNotifications
+                 {
+                     AuthenticationFailed = OnAuthenticationFailed
+                 }
+             }
+         );*/
         }
 
         /// <summary>
