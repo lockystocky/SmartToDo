@@ -193,7 +193,9 @@ namespace ToDoList.Controllers
 
         private string SaveUploadedFile(HttpPostedFileBase file)
         {
+            
             string pathToFile = "";
+
             if (file != null && file.ContentLength > 0)
             {
                 pathToFile = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(file.FileName));

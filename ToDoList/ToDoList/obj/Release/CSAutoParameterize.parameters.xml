@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-ToDoList-20180406053420.mdf;Initial Catalog=aspnet-ToDoList-20180406053420;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\VS2017_Projects\\TDL\\ToDoList\\ToDoList\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="TasksDbContext-Web.config Connection String" description="TasksDbContext Connection String used in web.config by the application to access the database." defaultValue="Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=TasksDbContext-20180406181105; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|TasksDbContext-20180406181105.mdf" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\VS2017_Projects\\TDL\\ToDoList\\ToDoList\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='TasksDbContext']/@connectionString" />
+  </parameter>
+</parameters>

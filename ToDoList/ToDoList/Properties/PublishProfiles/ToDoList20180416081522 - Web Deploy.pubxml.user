@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAArcAK9N8O8UK+G32sSkHHwgAAAAACAAAAAAAQZgAAAAEAACAAAACB7uGszw/yQEuQyIQEIGshU9FJ2fPnvaDUY9wAWiIlJwAAAAAOgAAAAAIAACAAAACNi4pFl2asvzl6ilrrRgGoAfZ+UJ6oGUq9P2lh7NvWj4AAAAADVw4LxPlauiWYvbwUBn7eIv5wP+licfdrSrEbVkpZoSpN6HvcxU9eTzKsRXIU/UFKOHEKTG/BWy+DZulBlW4g0d/eppBeRhaCoCTxRwrVp3LaKLymKzGlr38dSpgQB/LFGJBBSp8WC5N+p+bB7FTc8EXsEYpNN4vl/LQDqPPXj0AAAAD2tn307+Fa9aBTLiZN6UQAvqE+1TXQ/wx9TSwfJlc4cJwiMYxEodnmEJVV8qdHJ/FIfgeNfSbwWUn3v5AXwSLX</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <AzureDBConnectionStrings Include="Data Source=tcp:todolist20180416081522dbserver.database.windows.net,1433;Initial Catalog=ToDoList20180416081522_db1;User Id=miiva@todolist20180416081522dbserver;Password=lheufhsrF24" />
+    <AzureDBConnectionStrings Include="Data Source=tcp:todolist20180416081522dbserver.database.windows.net,1433;Initial Catalog=ToDoList20180416081522_db;User Id=miiva@todolist20180416081522dbserver;Password=lheufhsrF24" />
+  </ItemGroup>
+</Project>

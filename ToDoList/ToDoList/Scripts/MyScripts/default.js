@@ -1,7 +1,7 @@
 ﻿function changeFavoriteValue(taskId, currentFavoriteIconElem) {
     $.ajax({
         type: "POST",
-        url: "changefavoritevalue/",// + taskId,
+        url: "/tasks/changefavoritevalue/",// + taskId,
         data: "{'taskId':'" + taskId + "'}",
         contentType: "application/json; charset=utf-8",
         dataType: "json"
@@ -19,7 +19,7 @@
 function changeDoneValue(taskId, currentFavoriteIconElem) {
     $.ajax({
         type: "POST",
-        url: "changedonevalue/",// + taskId,
+        url: "/tasks/changedonevalue/",// + taskId,
         data: "{'taskId':'" + taskId + "'}",
         contentType: "application/json; charset=utf-8",
         dataType: "json"
@@ -39,12 +39,11 @@ function changeDoneValue(taskId, currentFavoriteIconElem) {
 function deleteTask(taskId, taskElem) {
     $.ajax({
         type: "POST",
-        url: "deletetask/",// + taskId,
+        url: "/tasks/deletetask/",// + taskId,
         data: "{'id':'" + taskId + "'}",
         contentType: "application/json; charset=utf-8",
         dataType: "json"
     }).done(function () {
-        alert('success');
         taskElem.hide();
     });
 
