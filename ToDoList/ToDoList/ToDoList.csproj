@@ -307,6 +307,7 @@
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\TasksAndFoldersViewModel.cs" />
     <Compile Include="DbInfrasrtucture\TasksDbContext.cs" />
+    <Compile Include="Models\TasksInFolderViewModel.cs" />
     <Compile Include="Models\TaskViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

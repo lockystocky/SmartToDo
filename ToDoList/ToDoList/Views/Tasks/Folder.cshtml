@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ToDoList.Models.TaskToDo>
+﻿@model ToDoList.Models.TasksInFolderViewModel
 
 @{
     ViewBag.Title = "Folder";
@@ -12,11 +12,14 @@
         <p>
             @Html.ActionLink("Create task", "CreateWithFile")
         </p>
-        @if ( Model.Count() < 1)
+        <p>
+            @Html.ActionLink("Delete folder", "DeleteFolder", new { id = Model.Folder.Id })
+        </p>
+        @if (Model.TasksInFolder.Count() < 1)
     {
         <p>No tasks found.</p>
 }
-        @foreach (var task in Model)
+        @foreach (var task in Model.TasksInFolder)
     {
         <div class="card task">
             <div class="card-body">

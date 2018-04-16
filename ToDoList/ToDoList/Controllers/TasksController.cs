@@ -80,6 +80,7 @@ namespace ToDoList.Controllers
             return Json(new { success = "Valid" }, JsonRequestBehavior.AllowGet);
         }
 
+       
         [Route("tasks/folder/{folderName}")]
         public ActionResult Folder(string folderName)
         {
@@ -91,9 +92,16 @@ namespace ToDoList.Controllers
             var tasksInFolder = db.TaskToDoes
                 .Where(task => task.Folder.Name == folderName)
                 .ToList();
-            
+
             InsertHashtagReferences(tasksInFolder);
-            return View(tasksInFolder);
+
+            TasksInFolderViewModel tasksInFolderViewModel = new TasksInFolderViewModel()
+            {
+                TasksInFolder = tasksInFolder,
+                Folder = folder
+            };
+
+            return View(tasksInFolderViewModel);
         }
 
         [Authorize]
@@ -361,6 +369,28 @@ namespace ToDoList.Controllers
         }
 
         
+        [Route("tasks/deletefolder/{id}")]
+        public ActionResult DeleteFolder(Guid? id)
+        {
+            Models.Folder folder = db.Folders.Find(id);
+            
+            if (folder == null)
+                return HttpNotFound();
+
+            var relatedTasks = db.TaskToDoes
+                .Where(t => t.Folder.Id == folder.Id)
+                .ToList();
+
+            db.TaskToDoes.RemoveRange(relatedTasks);
+
+                      
+            db.Folders.Remove(folder);
+            db.SaveChanges();
+
+            return RedirectToAction("IndexWithFolders");
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {
